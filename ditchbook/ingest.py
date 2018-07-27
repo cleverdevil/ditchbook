@@ -26,7 +26,7 @@ PHOTO_EXPR = re.compile(".* (added|posted) .* (photo|photos).")
 VIDEO_EXPR = re.compile(".* added .* new (video|videos).")
 
 
-def apply_timezone(dt, default=timezone('US/Pacific')):
+def apply_timezone(dt, default=utc):
     for start, stop, zone in conf.TIMEZONES:
         if start <= dt <= stop:
             return zone.localize(dt).astimezone(utc)
@@ -47,7 +47,7 @@ def process_post(post):
     mf2 = {
         'type': ['h-entry'],
         'properties': {
-            'published': [dt.replace(tzinfo=None).isoformat(sep=' ')]
+            'published': [dt.isoformat(sep=' ')]
         }
     }
 
@@ -104,7 +104,7 @@ def process_album(album):
         'type': ['h-entry'],
         'properties': {
             'name': [album['name']],
-            'published': [dt.replace(tzinfo=None).isoformat(sep=' ')]
+            'published': [dt.isoformat(sep=' ')]
         }
     }
 
