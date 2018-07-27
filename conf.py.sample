@@ -1,0 +1,18 @@
+from datetime import datetime
+from pytz import timezone
+
+
+TOKEN = 'INSERT-TOKEN-HERE'
+MP_ENDPOINT = 'https://micro.blog/micropub'
+MP_MEDIA_ENDPOINT = 'https://micro.blog/micropub/media'
+MP_DESTINATION = 'http://your-username.micro.blog'
+
+MENTION_MAP = {
+    'Jonathan LaCour': '<a href="https://cleverdevil.io">Jonathan LaCour</a>'
+}
+
+# If you want to map particular date ranges to a specific time zone, go ahead
+TIMEZONES = [
+    (datetime(1900, 1, 1), datetime(2200, 1, 1), timezone('US/Eastern')),
+]
+

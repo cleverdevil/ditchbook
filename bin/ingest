@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+from ditchbook.ingest import process_album, process_post
+
+import json
+import os
+import sys
+
+
+if __name__ == '__main__':
+    # get path to Facebook export
+    if len(sys.argv) < 2:
+        print("Usage: ")
+        print("   $ bin/ingest <path to Facebook JSON export>")
+        sys.exit(1)
+    path = sys.argv[1]
+
+    # create export directories
+    os.system("mkdir -p mf2/albums")
+
+    # first, handle posts
+    with open('%s/posts/your_posts.json' % path, 'r') as posts_file:
+        posts = json.loads(posts_file.read())
+        for post in posts.get('status_updates', []):
+            mf2 = process_post(post)
+            if not mf2:
+                continue
+
+            with open('mf2/%d.json' % post['timestamp'], 'w') as output:
+                output.write(json.dumps(mf2, indent=2))
+
+    # then, handle albums
+    for album in os.listdir('%s/photos_and_videos/album' % path):
+        with open(os.path.join('%s/photos_and_videos/album' % path, album), 'r') as album_file:
+            album_data = json.loads(album_file.read())
+            mf2 = process_album(album_data)
+            if not mf2:
+                continue
+
+            with open('mf2/albums/%d.json' % album_data['last_modified_timestamp'], 'w') as output:
+                output.write(json.dumps(mf2, indent=2))

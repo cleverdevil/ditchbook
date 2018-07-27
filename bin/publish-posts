@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+from ditchbook.posts import process_post
+
+import os
+import json
+
+
+def main():
+    for filename in os.listdir('mf2'):
+        if not filename.endswith('.json'):
+            continue
+
+        post = json.loads(open(os.path.join('mf2', filename)).read())
+
+        print('=' * 80)
+        print('Post Title:', post['properties'].get('name', ['No Name'])[0])
+        print('    ->', 'Published', post['properties'].get('published', ['<unknown>'])[0])
+        print('    ->', len(post['properties'].get('photo', [])), 'photos.')
+        print('    ->', post['properties'].get('content', [''])[0])
+
+        if len(post['properties'].get('photo', [])):
+            print('  <-- AUTOMATICALLY POSTING: PHOTO PRESENT -->')
+            process_post(post)
+        else:
+            answer = input('Migrate post [Y, n]? ')
+            if answer in ('Y', 'y'):
+                process_post(post)
+
+
+if __name__ == '__main__':
+    main()
