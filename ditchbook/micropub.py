@@ -15,9 +15,6 @@ def generate_headers():
 
 
 def upload(file_path):
-    # TEMPORARY NO OP
-    return 'http://example.com/image.jpeg'
-
     print('Attempting to upload:', file_path)
 
     files = {'file': ('image.jpg', open(file_path, 'rb'), 'image/jpeg')}
@@ -39,9 +36,6 @@ def upload(file_path):
 def publish(mf2):
     print('Publishing MF2:')
     print(json.dumps(mf2, indent=2))
-
-    # TEMPORARY NO OP
-    return 'http://example.com/published-album'
 
     response = requests.post(
         conf.MP_ENDPOINT,
