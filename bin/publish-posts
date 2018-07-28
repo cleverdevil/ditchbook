@@ -12,7 +12,7 @@ def main():
             continue
 
         post = json.loads(open(os.path.join('mf2', filename)).read())
-
+        
         print('=' * 80)
         print('Post Title:', post['properties'].get('name', ['No Name'])[0])
         print('    ->', 'Published', post['properties'].get('published', ['<unknown>'])[0])
