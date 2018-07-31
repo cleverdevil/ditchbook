@@ -51,6 +51,11 @@ def process_post(post):
         }
     }
 
+    # if the post doesn't have a 'title', I can't classify it
+    # so skip it
+    if not post.get('title'):
+        return
+
     # check to see if this is a "note"
     if NOTE_EXPR.match(post['title']):
         note = post['attachments'][0]['data'][0]['note']
