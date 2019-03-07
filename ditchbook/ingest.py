@@ -91,7 +91,14 @@ def process_post(post):
 
     # handle standard status updates
     elif 'data' in post:
-        mf2['properties']['content'] = [post['data'][0]['post']]
+        try:
+            mf2['properties']['content'] = [post['data'][0]['post']]
+        except KeyError:
+            print('-' * 80)
+            print('Unexpected missing key "post" ->')
+            print(post['data'][0])
+            print('-' * 80)
+            return
 
     else:
         return
