@@ -70,9 +70,15 @@ def process_post(post):
         mf2['properties']['photo'] = []
         for attachment in post['attachments']:
             for media in attachment['data']:
-                mf2['properties']['photo'].append(
-                    'export/%s' % media['media']['uri']
-                )
+                try:
+                    mf2['properties']['photo'].append(
+                        'export/%s' % media['media']['uri']
+                    )
+                except KeyError:
+                    print('-' * 80)
+                    print('Unexpected missing key in media ->')
+                    print(media)
+                    print('-' * 80)
 
     # handle videos
     elif VIDEO_EXPR.match(post['title']):
@@ -96,7 +102,7 @@ def process_post(post):
         except KeyError:
             print('-' * 80)
             print('Unexpected missing key "post" ->')
-            print(post['data'][0])
+            print(post['data'])
             print('-' * 80)
             return
 
