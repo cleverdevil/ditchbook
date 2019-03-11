@@ -79,6 +79,7 @@ def process_post(post):
                     print('Unexpected missing key in media ->')
                     print(media)
                     print('-' * 80)
+                    return
 
     # handle videos
     elif VIDEO_EXPR.match(post['title']):
